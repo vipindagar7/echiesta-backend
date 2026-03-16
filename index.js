@@ -27,12 +27,18 @@ app.use("/api/events", registerRoute);
 app.get("/", (req, res) => {
   res.send("Welcome to Echiesta 2024 API");
 });
-// MongoDB connection
-mongoose.connect(process.env.MONGO_URI)
-.then(() => console.log("MongoDB Connected"))
-.catch(err => console.log(err));
 
-// server start
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+
+mongoose.connect(process.env.MONGO_URI)
+.then(() => {
+
+  console.log("MongoDB connected");
+
+  app.listen(process.env.PORT || 3000, () => {
+    console.log("Server running");
+  });
+
+})
+.catch(err => {
+  console.error(err);
 });
