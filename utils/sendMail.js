@@ -33,7 +33,7 @@ async function sendRegistrationMail(student, events) {
 
     <p>Your registration for <strong>ECHIESTA</strong> has been received successfully.</p>
 
-    <p><strong>Total Fee:</strong> ₹${student?.totalEventFee||0}</p>
+    <p><strong>Total Fee:</strong> ₹${student?.totalFee|| 0}</p>
 
     <p>Our team will verify your payment shortly.</p>
 
