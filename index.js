@@ -7,11 +7,11 @@ import cors from "cors";
 dotenv.config();
 
 const app = express();
-const port = 3000
+const port = 3000 
 
 // CORS
 app.use(cors({
-  origin:["http://localhost:5000", process.env.FRONTEND_URL],
+  origin:["http://localhost:5000", process.env.FRONTEND_URL, "https://echiesta.vercel.app/","*"],
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type"],
   credentials: true
@@ -19,7 +19,7 @@ app.use(cors({
 
 app.use(express.json());
 app.get("/", (req, res) => {
-  res.send("Welcome to Echiesta 2024 API");
+  res.send("Welcome to API");
 });
 // routes
 app.use("/api/events", registerRoute);
