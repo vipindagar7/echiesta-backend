@@ -33,12 +33,8 @@ async function sendRegistrationMail(student, events, totalFee = 0) {
 
     <p>Your registration for <strong>ECHIESTA</strong> has been received successfully.</p>
 
-<<<<<<< HEAD
-    <p><strong>Total Fee:</strong> ₹${student?.totalFee|| 0}</p>
-=======
     <p><strong>Total Fee:</strong> ₹${totalFee}</p>
     <p><strong>Events:</strong> ${eventList}</p>
->>>>>>> b9eb682 (added star night)
 
     <p>Our team will verify your payment shortly.</p>
 
@@ -72,9 +68,6 @@ async function sendRegistrationMail(student, events, totalFee = 0) {
     await transporter.sendMail(adminMail);
 }
 
-<<<<<<< HEAD
-export { sendRegistrationMail };
-=======
 async function sendStarNightRegistrationMail(name, email, uid) {
 
     const mailOptions = {
@@ -128,4 +121,3 @@ async function sendStarNightRegistrationMail(name, email, uid) {
 }
 
 export { sendRegistrationMail, sendStarNightRegistrationMail };
->>>>>>> b9eb682 (added star night)
