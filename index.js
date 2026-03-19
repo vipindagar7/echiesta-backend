@@ -3,9 +3,9 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import cors from "cors";
 
-import registerEventRoute from "../routes/eventRoutes.js";
-import starNightRegistration from "../routes/djNightRoutes.js";
-import sponsorRoutes from "../routes/sponserRoutes.js";
+import registerEventRoute from "./routes/eventRoutes.js";
+import starNightRegistration from "./routes/djNightRoutes.js";
+import sponsorRoutes from "./routes/sponserRoutes.js";
 
 dotenv.config();
 
