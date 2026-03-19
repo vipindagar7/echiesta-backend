@@ -2,47 +2,60 @@ import StarNight from "../models/starNight.js";
 import { sendStarNightRegistrationMail } from "../utils/sendMail.js";
 
 export const createStarNightRegistration = async (req, res) => {
-    try {
-        const { name, email, phone, institute, aadhar } = req.body;
+  try {
+    const { name, email, phone, institute, aadhar } = req.body;
 
-        if (!name || !email || !phone || !institute || !aadhar) {
-            return res.status(400).json({
-                success: false,
-                message: "All fields are required"
-            });
-        }
-
-        const existingRegistration = await StarNight.findOne({ email });
-
-        if (existingRegistration) {
-            return res.status(400).json({
-                success: false,
-                message: "You have already registered for DJ Night"
-            });
-        }
-
-        const registration = new StarNight({
-            name,
-            email,
-            phone,
-            institute,
-            aadhar
-        });
-
-        const savedRegistration = await registration.save();
-        await sendStarNightRegistrationMail(name, email,registration._id);
-        res.status(201).json({
-            success: true,
-            message: "DJ Night registration successful",
-            data: savedRegistration
-        });
-    } catch (error) {
-        console.error("Error creating DJ Night registration:", error);
-        res.status(500).json({
-            success: false,
-            message: "Server error while creating DJ Night registration"
-        });
+    if (!name || !email || !phone || !institute || !aadhar) {
+      return res.status(400).json({
+        success: false,
+        message: "All fields are required",
+      });
     }
+
+    const existingRegistration = await StarNight.findOne({ email });
+
+    if (existingRegistration) {
+      return res.status(400).json({
+        success: false,
+        message: "You have already registered for DJ Night",
+      });
+    }
+
+    const registration = new StarNight({
+      name,
+      email,
+      phone,
+      institute,
+      aadhar,
+    });
+
+    const savedRegistration = await registration.save();
+
+    // ✅ SAFE EMAIL CALL
+    try {
+      await sendStarNightRegistrationMail(
+        name,
+        email,
+        savedRegistration._id
+      );
+    } catch (mailError) {
+      console.error("❌ Mail Error:", mailError);
+    }
+
+    res.status(201).json({
+      success: true,
+      message: "DJ Night registration successful",
+      data: savedRegistration,
+    });
+
+  } catch (error) {
+    console.error("🔥 CONTROLLER ERROR:", error);
+
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
 };
 
 export const getStarNightRegistrations = async (req, res) => {
