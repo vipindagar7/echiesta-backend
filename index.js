@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import registerEventRoute from "./routes/eventRoutes.js";
 import starNightRegistration from "./routes/djNightRoutes.js";
+import sponsorRoutes from "./routes/sponserRoutes.js";
 import mongoose from "mongoose";
 import cors from "cors";
 
@@ -12,7 +13,7 @@ const port = 3000
 
 // CORS
 app.use(cors({
-  origin:[ "https://echiesta.vercel.app/", "http://localhost:5173"],
+  origin:[ "https://echiesta.vercel.app/", "http://localhost:5173" ,"*"],
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type"],
   credentials: true
@@ -25,6 +26,7 @@ app.get("/", (req, res) => {
 // routes
 app.use("/api/events", registerEventRoute);
 app.use("/api/star-night",starNightRegistration );
+app.use("/api/sponsor",sponsorRoutes );
 
 
 app.get("/", (req, res) => {
