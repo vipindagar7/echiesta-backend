@@ -45,7 +45,7 @@ export const loginController = async (req, res) => {
             token
         });
     } catch (err) {
-        res.status(500).json({ message: "Server error" });
+        res.status(500).json({ message: err });
     }
 };
 
@@ -88,7 +88,7 @@ export const createUser = async (req, res) => {
     } catch (error) {
         console.error("Create user error:", error);
         res.status(500).json({
-            message: "Server error",
+            message: err,
         });
     }
 };
@@ -115,7 +115,7 @@ export const deleteUser = async (req, res) => {
     } catch (error) {
         console.error("Delete user error:", error);
         res.status(500).json({
-            message: "Server error",
+            message: err,
         });
     }
 };
@@ -130,7 +130,7 @@ export const getUsers = async (req, res) => {
     } catch (error) {
         console.error("Create user error:", error);
         res.status(500).json({
-            message: "Server error",
+            message: err,
         });
     }
 }
@@ -153,7 +153,7 @@ export const logoutController = async (req, res) => {
         console.error("Logout error:", error);
         res.status(500).json({
             success: false,
-            message: "Server error",
+            message: err,
         });
     }
 };

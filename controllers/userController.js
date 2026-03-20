@@ -17,6 +17,6 @@ export const stats =  async (req, res) => {
         pendingConcert,
       });
     } catch (err) {
-      res.status(500).json({ message: "Server error" });
+      res.status(500).json({ message: err });
     }
   };

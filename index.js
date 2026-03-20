@@ -17,7 +17,7 @@ const port = 3000
 // CORS for prod
 app.use(
   cors({
-    origin: "https://echiesta.vercel.app", // your frontend
+    origin: "https://echiesta.vercel.app",
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],

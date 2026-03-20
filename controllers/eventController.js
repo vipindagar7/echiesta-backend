@@ -67,7 +67,7 @@ export const createRegistration = async (req, res) => {
 
         res.status(500).json({
             success: false,
-            message: "Server error",
+            message: err,
             error: error.message
         });
 
@@ -204,7 +204,7 @@ await sendRejectedMail(
     } catch (error) {
         console.error("Reject error:", error);
         res.status(500).json({
-            message: "Server error",
+            message: err,
         });
     }
 };
