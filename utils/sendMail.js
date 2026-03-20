@@ -119,5 +119,104 @@ async function sendStarNightRegistrationMail(name, email, uid) {
 
     await transporter.sendMail(mailOptions);
 }
+async function sendVerifiedMail(student, events, totalFee = 0) {
 
-export { sendRegistrationMail, sendStarNightRegistrationMail };
+  const eventList = events.map(e => e.eventName).join(", ");
+
+  const mail = {
+    from: '"Echiesta" <no-reply@echiesta.com>',
+    to: student.email,
+    subject: "Payment Verified ✅ | Echiesta Fest",
+    html: `
+    <div style="background:#0f172a;padding:30px;font-family:Arial;color:white">
+
+      <div style="text-align:center;margin-bottom:20px">
+        <img 
+          src="https://res.cloudinary.com/dpyco6kcx/image/upload/v1773680078/event-payments/vzevxqzssuukt2fj3gmb.png"
+          width="120"
+          alt="Echiesta"
+        />
+        <h1 style="color:#22c55e;margin-top:10px">Payment Confirmed 🎉</h1>
+      </div>
+
+      <div style="background:#111827;padding:25px;border-radius:10px">
+
+        <p>Hello <strong>${student.name}</strong>,</p>
+
+        <p>Your payment has been <strong style="color:#22c55e">successfully verified</strong>.</p>
+
+        <p><strong>Total Fee:</strong> ₹${totalFee}</p>
+        <p><strong>Events:</strong> ${eventList}</p>
+
+        <p>You are now officially registered for <strong>ECHIESTA</strong> 🎉</p>
+
+        <br/>
+
+        <p>We look forward to seeing you at the event!</p>
+
+        <br/>
+
+        <p>Regards,<br/>
+        <strong>Team Echiesta</strong></p>
+
+      </div>
+    </div>
+    `
+  };
+
+  await transporter.sendMail(mail);
+}
+
+async function sendRejectedMail(student, events, totalFee = 0) {
+
+  const eventList = events.map(e => e.eventName).join(", ");
+
+  const mail = {
+    from: '"Echiesta" <no-reply@echiesta.com>',
+    to: student.email,
+    subject: "Payment Issue ❌ | Echiesta Fest",
+    html: `
+    <div style="background:#0f172a;padding:30px;font-family:Arial;color:white">
+
+      <div style="text-align:center;margin-bottom:20px">
+        <img 
+          src="https://res.cloudinary.com/dpyco6kcx/image/upload/v1773680078/event-payments/vzevxqzssuukt2fj3gmb.png"
+          width="120"
+          alt="Echiesta"
+        />
+        <h1 style="color:#ef4444;margin-top:10px">Payment Not Verified ❌</h1>
+      </div>
+
+      <div style="background:#111827;padding:25px;border-radius:10px">
+
+        <p>Hello <strong>${student.name}</strong>,</p>
+
+        <p>Your payment could not be verified.</p>
+
+        <p><strong>Total Fee:</strong> ₹${totalFee}</p>
+        <p><strong>Events:</strong> ${eventList}</p>
+
+        <p>Please resend your payment proof to:</p>
+
+        <p style="color:#a855f7"><strong>echiesta@eitfaridabad.co.in</strong></p>
+
+        <p>Make sure the screenshot is clear and includes transaction details.</p>
+
+        <br/>
+
+        <p>Once submitted, our team will verify it again.</p>
+
+        <br/>
+
+        <p>Regards,<br/>
+        <strong>Team Echiesta</strong></p>
+
+      </div>
+    </div>
+    `
+  };
+
+  await transporter.sendMail(mail);
+}
+
+export { sendRegistrationMail, sendStarNightRegistrationMail, sendVerifiedMail,sendRejectedMail };

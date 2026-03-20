@@ -87,12 +87,13 @@ const registrationSchema = new mongoose.Schema({
 
   paymentStatus: {
     type: String,
-    enum: ["pending", "paid", "failed"],
+    enum: ["pending", "verified", "rejected"],
     default: "pending"
   },
 
-  paymentId: {
-    type: String
+  paymentCheckBy: {
+    type: String,
+    default: null
   },
 
   createdAt: {

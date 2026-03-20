@@ -2,29 +2,42 @@ import express from "express";
 import dotenv from "dotenv";
 import registerEventRoute from "./routes/eventRoutes.js";
 import starNightRegistration from "./routes/djNightRoutes.js";
-import sponsorRoutes from "./routes/sponserRoutes.js";
+import adminRoutes from "./routes/adminRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
 import mongoose from "mongoose";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 
 const app = express();
-const port = 3000 
+const port = 3000
 
 // CORS
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  next();
-});
+// app.use((req, res, next) => {
+//   res.header("Access-Control-Allow-Origin", "*");
+//   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+//   res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+//   next();
+// });
 
+// apply cors for dev mode
+
+// app.use(
+//   cors({
+//     origin: "http://localhost:5173", // your frontend URL
+//     credentials: true,
+//   })
+// );
 app.use(express.json());
-
+app.use(cookieParser());
 // routes
 app.use("/api/events", registerEventRoute);
-app.use("/api/star-night",starNightRegistration );
-// app.use("/api/sponsor",sponsorRoutes );
+app.use("/api/star-night", starNightRegistration);
+app.use("/api/auth", authRoutes);
+app.use("/api/admin", adminRoutes);
+app.use("/api/user", userRoutes);
 
 
 app.get("/", (req, res) => {
@@ -33,15 +46,15 @@ app.get("/", (req, res) => {
 
 
 mongoose.connect(process.env.MONGO_URI)
-.then(() => {
+  .then(() => {
 
-  console.log("MongoDB connected");
+    console.log("MongoDB connected");
 
-  app.listen(process.env.PORT || 3000, () => {
-    console.log("Server running");
+    app.listen(process.env.PORT || 3000, () => {
+      console.log("Server running");
+    });
+
+  })
+  .catch(err => {
+    console.error(err);
   });
-
-})
-.catch(err => {
-  console.error(err);
-});
