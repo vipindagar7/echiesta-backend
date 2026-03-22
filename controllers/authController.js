@@ -133,7 +133,7 @@ export const getUsers = async (req, res) => {
             message: err,
         });
     }
-}
+};
 
 export const logoutController = async (req, res) => {
     try {

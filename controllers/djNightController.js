@@ -91,6 +91,42 @@ export const getStarNightRegistrations = async (req, res) => {
   }
 };
 
+export const getStarNightRegistrationById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid ID",
+      });
+    }
+
+    const registration = await StarNight.findById(id);
+
+    if (!registration) {
+      return res.status(404).json({
+        success: false,
+        message: "Registration not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Star Night registration retrieved successfully",
+      data: registration,
+    });
+
+  } catch (error) {
+    console.error("Error fetching Star Night registration:", error);
+    res.status(500).json({
+      success: false,
+      message: "Server error while fetching registration",
+    });
+  }
+};
+
+
 export const checkInStarNight = async (req, res) => {
   try {
     const { id } = req.params;
@@ -126,6 +162,44 @@ export const checkInStarNight = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Server error during DJ Night check-in"
+    });
+  }
+};
+
+export const searchEventController = async (req, res) => {
+  try {
+    const { query, uid, email } = req.query;
+
+    let filter = {};
+
+    if (query) {
+      filter.$or = [
+        { eventName: { $regex: query, $options: "i" } },
+        { email: { $regex: query, $options: "i" } },
+      ];
+    }
+
+    if (uid) {
+      filter._id = uid;
+    }
+
+    if (email) {
+      filter.email = email;
+    }
+
+    const events = await StarNight.find(filter).sort({ createdAt: -1 });
+
+    res.status(200).json({
+      success: true,
+      count: events.length,
+      events,
+    });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: "Server error",
     });
   }
 };

@@ -95,7 +95,6 @@ async function sendStarNightRegistrationMail(name, email, uid) {
 
     <p>Your registration for <strong>Star Night</strong> has been received successfully.</p>
    <ul>
-  <li>This pass is valid only for 12th class students or those who have passed 12th class in 2026–27.</li>
   <li>You must carry a valid School ID card, 10th mark sheet, and Aadhaar card.</li>
   <li>Online registration is mandatory using the provided QR code.</li>
   <li>You must carry this pass throughout the event.</li>
