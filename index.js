@@ -15,15 +15,24 @@ const app = express();
 const port = 3000
 
 // CORS for prod
+// app.use(
+//   cors({
+//     origin: ,
+//     credentials: true,
+//     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+//     allowedHeaders: ["Content-Type", "Authorization"],
+//   })
+// );
+
+// ✅ CORS (FIXED)
 app.use(
   cors({
-    origin: allowedOrigin,
+    origin: "https://echiesta.vercel.app",
     credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"], // ✅ added PATCH
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
-
 // apply cors for dev mode
 
 // app.use(
@@ -52,12 +61,11 @@ mongoose.connect(process.env.MONGO_URI)
 
     console.log("MongoDB connected");
 
+    app.listen(process.env.PORT || 3000, () => {
+      console.log("Server running");
+    });
 
   })
   .catch(err => {
     console.error(err);
   });
-
-app.listen(process.env.PORT || 3000, () => {
-  console.log("Server running");
-});
