@@ -5,11 +5,12 @@ import { createUser, deleteUser, getUsers, loginController, logoutController } f
 
 const router = express.Router();
 
-router.post("/signup", createUser)
 router.post("/login", loginController)
-router.post("/logout", protect, logoutController)
-router.get("/getUsers", protect, authorizeRoles("admin"),getUsers )
 
+router.post("/signup",protect,authorizeRoles("admin"), createUser)
+
+router.post("/logout", protect, logoutController)
+router.get("/getUsers", protect, authorizeRoles("admin"), getUsers )
 router.delete("/delete/:id", protect, authorizeRoles("admin"), deleteUser)
 
 export default router;

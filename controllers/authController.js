@@ -135,25 +135,15 @@ export const getUsers = async (req, res) => {
     }
 };
 
-export const logoutController = async (req, res) => {
-    try {
-        res.cookie("token", "", {
-            httpOnly: true,
-            secure: true, // use true in production (HTTPS)
-            sameSite: "None", // important for cross-origin
-            expires: new Date(0), // expire immediately
-        });
+export const logoutController = (req, res) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "None",
+  });
 
-        res.status(200).json({
-            success: true,
-            message: "Logged out successfully",
-        });
-
-    } catch (error) {
-        console.error("Logout error:", error);
-        res.status(500).json({
-            success: false,
-            message: err,
-        });
-    }
+  res.status(200).json({
+    success: true,
+    message: "Logged out successfully",
+  });
 };
