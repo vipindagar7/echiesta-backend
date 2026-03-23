@@ -12,51 +12,69 @@ import cookieParser from "cookie-parser";
 dotenv.config();
 
 const app = express();
-const port = 3000
+const PORT = process.env.PORT || 3000;
 
-// CORS for prod
+const allowedOrigin = "https://echiesta.vercel.app";
+
+// ✅ CORS (FIXED)
 app.use(
   cors({
-    origin: "https://echiesta.vercel.app",
+    origin: allowedOrigin,
     credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"], // ✅ added PATCH
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
-// apply cors for dev mode
+// ✅ Handle preflight requests
+app.options("*", cors());
 
-// app.use(
-//   cors({
-//     origin: "http://localhost:5173", // your frontend URL
-//     credentials: true,
-//   })
-// );
+// ✅ Extra headers (important for Vercel)
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", allowedOrigin);
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.header(
+    "Access-Control-Allow-Methods",
+    "GET,POST,PUT,DELETE,PATCH,OPTIONS"
+  );
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Content-Type, Authorization"
+  );
+
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200);
+  }
+
+  next();
+});
+
+// ✅ Middlewares
 app.use(express.json());
 app.use(cookieParser());
-// routes
+
+// ✅ Routes
 app.use("/api/events", registerEventRoute);
 app.use("/api/star-night", starNightRegistration);
 app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/user", userRoutes);
 
-
+// ✅ Test route
 app.get("/", (req, res) => {
-  res.send("Welcome to Echiesta 2024 API");
+  res.send("Welcome to Echiesta API 🚀");
 });
 
-
-mongoose.connect(process.env.MONGO_URI)
+// ✅ DB connection
+mongoose
+  .connect(process.env.MONGO_URI)
   .then(() => {
-
     console.log("MongoDB connected");
 
-    app.listen(process.env.PORT || 3000, () => {
-      console.log("Server running");
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
     });
-
   })
-  .catch(err => {
+  .catch((err) => {
     console.error(err);
   });
