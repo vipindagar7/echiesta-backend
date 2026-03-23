@@ -52,11 +52,12 @@ mongoose.connect(process.env.MONGO_URI)
 
     console.log("MongoDB connected");
 
-    app.listen(process.env.PORT || 3000, () => {
-      console.log("Server running");
-    });
 
   })
   .catch(err => {
     console.error(err);
   });
+
+app.listen(process.env.PORT || 3000, () => {
+  console.log("Server running");
+});
