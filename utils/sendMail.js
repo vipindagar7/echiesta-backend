@@ -71,7 +71,7 @@ async function sendRegistrationMail(student, events, totalFee = 0) {
 async function sendStarNightRegistrationMail(name, email, uid) {
 
     const mailOptions = {
-        from: '"Echiesta" <no-reply@echiesta.com>',
+        from: '"Echiesta" <no-reply@echiesta.@eitfaridabad.co.in>',
         to: email,
         subject: "Star Night Registration Confirmation",
         html: `
@@ -86,6 +86,9 @@ async function sendStarNightRegistrationMail(name, email, uid) {
 
     <h1 style="color:#a855f7;margin-top:10px">
       Star Night Registration
+    </h1>
+    <h1 style="color:#a855f7;margin-top:10px">
+     Free Entry
     </h1>
   </div>
 

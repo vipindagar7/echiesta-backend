@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import StarNight from "../models/starNight.js";
 import { sendStarNightRegistrationMail } from "../utils/sendMail.js";
 
@@ -136,14 +137,14 @@ export const checkInStarNight = async (req, res) => {
     if (!registration) {
       return res.status(404).json({
         success: false,
-        message: "DJ Night registration not found"
+        message: "Star Night registration not found"
       });
     }
 
     if (registration.isCheckedIn) {
       return res.status(400).json({
         success: false,
-        message: "Already checked in for DJ Night"
+        message: "Already checked in for Star Night"
       });
     }
 
@@ -154,14 +155,52 @@ export const checkInStarNight = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      message: "Checked in successfully for DJ Night",
+      message: "Checked in successfully for Star Night",
       data: updatedRegistration
     });
   } catch (error) {
-    console.error("Error during DJ Night check-in:", error);
+    console.error("Error during Star Night check-in:", error);
     res.status(500).json({
       success: false,
-      message: "Server error during DJ Night check-in"
+      message: "Server error during Star Night check-in"
+    });
+  }
+};
+export const checkOutStarNight = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const registration = await StarNight.findById(id);
+
+    if (!registration) {
+      return res.status(404).json({
+        success: false,
+        message: "Star Night registration not found"
+      });
+    }
+
+    if (!registration.isCheckedIn) {
+      return res.status(400).json({
+        success: false,
+        message: "not yet checked in for Star Night"
+      });
+    }
+
+    registration.isCheckedIn = false;
+    registration.checkInTime = new Date();
+
+    const updatedRegistration = await registration.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Checked in successfully for Star Night",
+      data: updatedRegistration
+    });
+  } catch (error) {
+    console.error("Error during Star Night check-in:", error);
+    res.status(500).json({
+      success: false,
+      message: "Server error during Star Night check-in"
     });
   }
 };
@@ -200,6 +239,43 @@ export const searchEventController = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Server error",
+    });
+  }
+};
+
+
+export const deleteStarNightRegistration = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid ID",
+      });
+    }
+
+    const deleted = await StarNight.findByIdAndDelete(id);
+
+    if (!deleted) {
+      return res.status(404).json({
+        success: false,
+        message: "Registration not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Registration deleted successfully",
+      data: deleted, 
+    });
+
+  } catch (error) {
+    console.error("Error deleting registration:", error);
+
+    res.status(500).json({
+      success: false,
+      message: "Server error while deleting registration",
     });
   }
 };
