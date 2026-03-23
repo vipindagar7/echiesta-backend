@@ -15,23 +15,23 @@ const app = express();
 const port = 3000
 
 // CORS for prod
-// app.use(
-//   cors({
-//     origin: "https://echiesta.vercel.app",
-//     credentials: true,
-//     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-//     allowedHeaders: ["Content-Type", "Authorization"],
-//   })
-// );
+app.use(
+  cors({
+    origin: "https://echiesta.vercel.app",
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 
 // apply cors for dev mode
 
-app.use(
-  cors({
-    origin: "http://localhost:5173", // your frontend URL
-    credentials: true,
-  })
-);
+// app.use(
+//   cors({
+//     origin: "http://localhost:5173", // your frontend URL
+//     credentials: true,
+//   })
+// );
 app.use(express.json());
 app.use(cookieParser());
 // routes
