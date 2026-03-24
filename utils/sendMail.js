@@ -5,14 +5,14 @@ import transporter from "./mailer.js";
 
 async function sendRegistrationMail(student, events, totalFee = 0) {
 
-    const eventList = events.map(e => e.eventName).join(", ");
+  const eventList = events.map(e => e.eventName).join(", ");
 
-    // Email to student
-    const userMail = {
-        from: '"Echiesta" <no-reply@echiesta.com>',
-        to: student.email,
-        subject: "Echiesta Registration Confirmation",
-        html: `
+  // Email to student
+  const userMail = {
+    from: '"Echiesta" <no-reply@echiesta.com>',
+    to: student.email,
+    subject: "Echiesta Registration Confirmation",
+    html: `
      <div style="background:#0f172a;padding:30px;font-family:Arial;color:white">
 
   <div style="text-align:center;margin-bottom:20px">
@@ -47,14 +47,14 @@ async function sendRegistrationMail(student, events, totalFee = 0) {
 
 </div>
     `
-    };
+  };
 
-    // Email to admin
-    const adminMail = {
-        from: process.env.EMAIL_USER,
-        to: process.env.ADMIN_EMAIL,
-        subject: "New Event Registration",
-        html: `
+  // Email to admin
+  const adminMail = {
+    from: process.env.EMAIL_USER,
+    to: process.env.ADMIN_EMAIL,
+    subject: "New Event Registration",
+    html: `
       <h2>New Registration</h2>
       <p><b>Name:</b> ${student.name}</p>
       <p><b>Email:</b> ${student.email}</p>
@@ -62,64 +62,82 @@ async function sendRegistrationMail(student, events, totalFee = 0) {
       <p><b>College:</b> ${student.college}</p>
       <p><b>Events:</b> ${eventList}</p>
     `
-    };
+  };
 
-    await transporter.sendMail(userMail);
-    await transporter.sendMail(adminMail);
+  await transporter.sendMail(userMail);
+  await transporter.sendMail(adminMail);
 }
 
 async function sendStarNightRegistrationMail(name, email, uid) {
 
-    const mailOptions = {
-        from: '"Echiesta" <no-reply@echiesta.@eitfaridabad.co.in>',
-        to: email,
-        subject: "Star Night Registration Confirmation",
-        html: `
-      <div style="background:#0f172a;padding:30px;font-family:Arial;color:white">
+  const mailOptions = {
+    from: '"Echiesta" <no-reply@echiesta.eitfaridabad.co.in>',
+    to: email,
+    subject: "Star Night Registration Confirmation",
+    html: `
+    <div style="background:#0f172a;padding:30px;font-family:Arial;color:white">
 
-  <div style="text-align:center;margin-bottom:20px">
-    <img 
-      src="https://res.cloudinary.com/dpyco6kcx/image/upload/v1773680078/event-payments/vzevxqzssuukt2fj3gmb.png"
-      width="120"
-      alt="Echiesta"
-    />
+      <div style="text-align:center;margin-bottom:20px">
+        <img 
+          src="https://res.cloudinary.com/dpyco6kcx/image/upload/v1773680078/event-payments/vzevxqzssuukt2fj3gmb.png"
+          width="120"
+          alt="Echiesta"
+        />
 
-    <h1 style="color:#a855f7;margin-top:10px">
-      Star Night Registration
-    </h1>
-    <h1 style="color:#a855f7;margin-top:10px">
-     Free Entry
-    </h1>
-  </div>
+        <h1 style="color:#a855f7;margin-top:10px">
+          Star Night Registration
+        </h1>
+        <h2 style="color:#22c55e;margin-top:5px">
+          Free Entry
+        </h2>
+      </div>
 
-  <div style="background:#111827;padding:25px;border-radius:10px">
+      <div style="background:#111827;padding:25px;border-radius:10px">
 
-    <p>Hello <strong>${name}</strong>,</p>
+        <p>Hello <strong>${name}</strong>,</p>
 
-    <p>Your registration for <strong>Star Night</strong> has been received successfully.</p>
-   <ul>
-  <li>You must carry a valid School ID card, 10th mark sheet, and Aadhaar card.</li>
-  <li>Online registration is mandatory using the provided QR code.</li>
-  <li>You must carry this pass throughout the event.</li>
-  <li>You need to check in at the event gate.</li>
-  <li>You must scan the QR code at the event gate for check-in.</li>
-  <li>Outside food, water, drinks, and bags are not allowed.</li>
-  <li>Any misconduct or illegal activity will result in strict legal action.</li>
-</ul>
-    <p>Your unique Qr Code is here:</p>
-    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${uid}" alt="QR Code" />
-    <br/>
+        <p>Your registration for <strong>Star Night</strong> has been successfully received.</p>
 
-    <p>Regards,<br/>
-    <strong>Team Echiesta</strong></p>
+        <h3 style="color:#a855f7;">Important Instructions:</h3>
 
-  </div>
+        <ul style="line-height:1.6">
+          <li><strong>You must carry a valid ID proof:</strong>
+            <ul>
+              <li>School ID / College ID Card (for students)</li>
+              <li>10th Mark Sheet</li>
+              <li>Aadhaar Card (Mandatory)</li>
+            </ul>
+          </li>
+          <li>Online registration using the provided QR code is mandatory.</li>
+          <li>Please carry this pass/QR code throughout the event.</li>
+          <li>You are required to check in at the event gate by scanning your QR code.</li>
+          <li><strong>Alumni must report at 4:00 PM for smooth entry.</strong></li>
+          <li>Consumption or possession of alcohol, liquor, or any prohibited substances is strictly prohibited and will attract heavy penalties.</li>
+          <li>School students must carry both their School ID Card and Aadhaar Card.</li>
+          <li>Outside food, beverages, water, and bags are not allowed inside the venue.</li>
+          <li><strong>No bags will be allowed inside the venue (including laptop bags).</strong></li>
+          <li>Any misconduct or illegal activity will result in strict disciplinary and legal action.</li>
+        </ul>
 
-</div>
+        <p style="margin-top:15px;"><strong>Entry Pass:</strong></p>
+        <p>Your unique QR code is provided below. Please keep it accessible for entry.</p>
+
+        <div style="text-align:center;margin:20px 0;">
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${uid}" alt="QR Code" />
+        </div>
+
+        <p style="color:#f87171;"><strong>⚠️ Gate will be closed by 5:30 PM. Late entry will not be permitted.</strong></p>
+
+        <p style="margin-top:20px;">Regards,<br/>
+        <strong>Team Echiesta</strong></p>
+
+      </div>
+
+    </div>
     `
-    };
+  };
 
-    await transporter.sendMail(mailOptions);
+  await transporter.sendMail(mailOptions);
 }
 async function sendVerifiedMail(student, events, totalFee = 0) {
 
@@ -221,4 +239,4 @@ async function sendRejectedMail(student, events, totalFee = 0) {
   await transporter.sendMail(mail);
 }
 
-export { sendRegistrationMail, sendStarNightRegistrationMail, sendVerifiedMail,sendRejectedMail };
+export { sendRegistrationMail, sendStarNightRegistrationMail, sendVerifiedMail, sendRejectedMail };

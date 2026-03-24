@@ -25,22 +25,23 @@ const port = 3000
 // );
 
 // ✅ CORS (FIXED)
-app.use(
-  cors({
-    origin: "https://echiesta.vercel.app",
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"], // ✅ added PATCH
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
-// apply cors for dev mode
-
 // app.use(
 //   cors({
-//     origin: "http://localhost:5173", // your frontend URL
+//     origin: "https://echiesta.vercel.app",
 //     credentials: true,
+//     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"], // ✅ added PATCH
+//     allowedHeaders: ["Content-Type", "Authorization"],
 //   })
 // );
+
+// apply cors for dev mode
+
+app.use(
+  cors({
+    origin: "http://localhost:5173", // your frontend URL
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(cookieParser());
 // routes
