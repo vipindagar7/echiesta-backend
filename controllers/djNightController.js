@@ -4,9 +4,9 @@ import { sendStarNightRegistrationMail } from "../utils/sendMail.js";
 
 export const createStarNightRegistration = async (req, res) => {
   try {
-    const { name, email, phone, institute, aadhar } = req.body;
+    const { name, email, phone, institute, aadhar, instituteType } = req.body;
 
-    if (!name || !email || !phone || !institute || !aadhar) {
+    if (!name || !email || !phone || !institute || !aadhar || !instituteType) {
       return res.status(400).json({
         success: false,
         message: "All fields are required",
@@ -28,6 +28,7 @@ export const createStarNightRegistration = async (req, res) => {
       phone,
       institute,
       aadhar,
+      instituteType
     });
 
     const savedRegistration = await registration.save();
@@ -266,7 +267,6 @@ export const searchEventController = async (req, res) => {
     });
   }
 };
-
 
 export const deleteStarNightRegistration = async (req, res) => {
   try {

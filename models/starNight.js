@@ -17,6 +17,11 @@ const starNightSchema = new mongoose.Schema({
     type: String,
     required: true
    },
+   instituteType:{
+    type: String,
+    required: true,
+    default:"school"
+   },
    aadhar:{
     type: String,
     required: true
