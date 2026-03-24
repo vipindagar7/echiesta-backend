@@ -207,31 +207,55 @@ export const checkOutStarNight = async (req, res) => {
 
 export const searchEventController = async (req, res) => {
   try {
-    const { query, uid, email } = req.query;
+    const {
+      name,
+      email,
+      phone,
+      page = 1,
+      limit = 50,
+      uid
+    } = req.query;
 
     let filter = {};
 
-    if (query) {
-      filter.$or = [
-        { eventName: { $regex: query, $options: "i" } },
-        { email: { $regex: query, $options: "i" } },
-      ];
+    // 🔍 search by name/email/phone
+    if (name || email || phone) {
+      filter.$or = [];
+
+      if (name) {
+        filter.$or.push({ name: { $regex: name, $options: "i" } });
+      }
+
+      if (email) {
+        filter.$or.push({ email: { $regex: email, $options: "i" } });
+      }
+
+      if (phone) {
+        filter.$or.push({ phone: { $regex: phone, $options: "i" } });
+      }
     }
 
+    // 🔍 search by UID
     if (uid) {
       filter._id = uid;
     }
 
-    if (email) {
-      filter.email = email;
-    }
+    // 🔢 pagination
+    const skip = (page - 1) * limit;
 
-    const events = await StarNight.find(filter).sort({ createdAt: -1 });
+    const data = await StarNight.find(filter)
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(Number(limit));
 
+    const total = await StarNight.countDocuments(filter);
+
+    // ✅ IMPORTANT: consistent response
     res.status(200).json({
       success: true,
-      count: events.length,
-      events,
+      data, // 🔥 this is what frontend expects
+      totalPages: Math.ceil(total / limit),
+      total,
     });
 
   } catch (error) {
@@ -267,7 +291,7 @@ export const deleteStarNightRegistration = async (req, res) => {
     res.status(200).json({
       success: true,
       message: "Registration deleted successfully",
-      data: deleted, 
+      data: deleted,
     });
 
   } catch (error) {

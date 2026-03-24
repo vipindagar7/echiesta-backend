@@ -5,6 +5,6 @@ import { stats } from "../controllers/adminController.js";
 
 const router = express.Router();
 
-router.get("/stats",protect,authorizeRoles("user"),stats)
+router.get("/stats",protect,authorizeRoles("user","scanner"),stats)
 
 export default router;
