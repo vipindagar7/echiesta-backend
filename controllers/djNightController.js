@@ -63,7 +63,7 @@ export const createStarNightRegistration = async (req, res) => {
 export const getStarNightRegistrations = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 50;
+    const limit = parseInt(req.query.limit) || 10;
 
     const skip = (page - 1) * limit;
 
@@ -127,7 +127,6 @@ export const getStarNightRegistrationById = async (req, res) => {
     });
   }
 };
-
 
 export const checkInStarNight = async (req, res) => {
   try {
@@ -213,7 +212,7 @@ export const searchEventController = async (req, res) => {
       email,
       phone,
       page = 1,
-      limit = 50,
+      limit = 10,
       uid
     } = req.query;
 

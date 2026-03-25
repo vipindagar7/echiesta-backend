@@ -74,7 +74,6 @@ export const createRegistration = async (req, res) => {
     }
 };
 
-
 export const getAllRegistrations = async (req, res) => {
     try {
         const page = parseInt(req.query.page) || 1;
