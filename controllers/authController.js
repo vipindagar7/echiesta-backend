@@ -2,6 +2,7 @@ import userModel from "../models/userModel.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { hashPassword } from "../utils/passwordHash.js";
+import { sendAccountCreatedMail, sendVerifiedMail } from "../utils/sendMail.js";
 
 export const loginController = async (req, res) => {
     try {
@@ -72,8 +73,8 @@ export const createUser = async (req, res) => {
             email: email.toLowerCase(),
             password: hashedPassword,
             role,
-        });
-
+        })
+        await sendAccountCreatedMail(user,password)
         res.status(201).json({
             success: true,
             message: "User created successfully",
