@@ -25,9 +25,24 @@ const port = 3000
 // );
 
 // ✅ CORS (FIXED)
+const allowedOrigins = [
+  "https://echiesta.vercel.app",
+  "https://echiesta-frontend.vercel.app",
+
+];
+
 app.use(
   cors({
-    origin: "https://echiesta.vercel.app",
+    origin: (origin, callback) => {
+      // allow requests like Postman (no origin)
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      } else {
+        return callback(new Error("CORS not allowed"));
+      }
+    },
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
