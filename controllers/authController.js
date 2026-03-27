@@ -7,19 +7,16 @@ import { sendAccountCreatedMail, sendVerifiedMail } from "../utils/sendMail.js";
 export const loginController = async (req, res) => {
     try {
         const { email, password } = req.body;
-
         // Check user
         const user = await userModel.findOne({ email });
         if (!user) {
             return res.status(400).json({ message: "User not found" });
         }
-
         // Check password
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
             return res.status(400).json({ message: "Invalid credentials" });
         }
-
         // Create token (include role)
         const token = jwt.sign(
             {
@@ -30,11 +27,11 @@ export const loginController = async (req, res) => {
             { expiresIn: "7d" }
         );
         res.cookie("token", token, {
-            httpOnly: true,
-            secure: true,
-            sameSite: "None",
-            domain: ".vercel.app", // 🔥 important
-            path: "/",
+            httpOnly: false,
+            // secure: true,
+            // sameSite: "None",
+            // domain: ".vercel.app", 
+            // path: "/",
         });
 
         res.json({
