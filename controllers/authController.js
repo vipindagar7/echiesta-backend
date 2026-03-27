@@ -27,13 +27,12 @@ export const loginController = async (req, res) => {
             { expiresIn: "7d" }
         );
         res.cookie("token", token, {
-            httpOnly: false,
-            // secure: true,
-            // sameSite: "None",
-            // domain: ".vercel.app", 
-            // path: "/",
+            httpOnly: true,
+            secure: true,          // MUST for HTTPS
+            sameSite: "None",      // MUST for cross-site
+            path: "/",
         });
-
+        
         res.json({
             success: true,
             user: {
