@@ -28,6 +28,7 @@ const port = 3000
 const allowedOrigins = [
   "https://echiesta.vercel.app",
   "https://echiesta-frontend.vercel.app",
+  "http://localhost:5173"
 
 ];
 

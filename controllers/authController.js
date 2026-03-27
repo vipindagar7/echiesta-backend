@@ -33,6 +33,8 @@ export const loginController = async (req, res) => {
             httpOnly: true,
             secure: true,
             sameSite: "None",
+            domain: ".vercel.app", // 🔥 important
+            path: "/",
         });
 
         res.json({
@@ -74,7 +76,7 @@ export const createUser = async (req, res) => {
             password: hashedPassword,
             role,
         })
-        await sendAccountCreatedMail(user,password)
+        await sendAccountCreatedMail(user, password)
         res.status(201).json({
             success: true,
             message: "User created successfully",
@@ -137,14 +139,14 @@ export const getUsers = async (req, res) => {
 };
 
 export const logoutController = (req, res) => {
-  res.clearCookie("token", {
-    httpOnly: true,
-    secure: true,
-    sameSite: "None",
-  });
+    res.clearCookie("token", {
+        httpOnly: true,
+        secure: true,
+        sameSite: "None",
+    });
 
-  res.status(200).json({
-    success: true,
-    message: "Logged out successfully",
-  });
+    res.status(200).json({
+        success: true,
+        message: "Logged out successfully",
+    });
 };
