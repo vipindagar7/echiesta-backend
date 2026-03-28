@@ -27,7 +27,7 @@ const port = 3000
 // ✅ CORS (FIXED)
 const allowedOrigins = [
   "https://echiesta.vercel.app",
-  "https://echiesta-frontend.vercel.app",
+  "https://echiesta-frontend.vercel.app/",
   "http://localhost:5173"
 
 ];
