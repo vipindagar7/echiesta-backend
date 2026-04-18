@@ -64,7 +64,7 @@ export const createUser = async (req, res) => {
                 success: false,
                 message: "User already exists",
             });
-        }
+        } 
 
         const user = await userModel.create({
             name,
@@ -87,7 +87,7 @@ export const createUser = async (req, res) => {
     } catch (error) {
         console.error("Create user error:", error);
         res.status(500).json({
-            message: err,
+            message: error,
         });
     }
 };

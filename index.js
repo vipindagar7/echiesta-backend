@@ -8,9 +8,7 @@ import authRoutes from "./routes/authRoutes.js";
 import mongoose from "mongoose";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-
 dotenv.config();
-
 const app = express();
 const port = 3000
 
@@ -21,6 +19,13 @@ const port = 3000
 //     credentials: true,
 //     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
 //     allowedHeaders: ["Content-Type", "Authorization"],
+//   })
+// );
+
+// app.use(
+//   cors({
+//     origin: "http://localhost:5173", 
+//     credentials: true,
 //   })
 // );
 
@@ -51,15 +56,12 @@ app.use(
 
 // apply cors for dev mode
 
-// app.use(
-//   cors({
-//     origin: "http://localhost:5173", 
-//     credentials: true,
-//   })
-// );
+
+
 app.use(express.json());
 app.use(cookieParser());
 // routes
+
 app.use("/api/events", registerEventRoute);
 app.use("/api/star-night", starNightRegistration);
 app.use("/api/auth", authRoutes);
@@ -74,13 +76,10 @@ app.get("/", (req, res) => {
 
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
-
     console.log("MongoDB connected");
-
     app.listen(process.env.PORT || 3000, () => {
       console.log("Server running");
     });
-
   })
   .catch(err => {
     console.error(err);

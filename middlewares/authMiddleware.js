@@ -8,14 +8,12 @@ export const protect = (req, res, next) => {
     if (req.cookies && req.cookies.token) {
       token = req.cookies.token;
     }
-
     // ✅ 2. Fallback: Authorization header (for Safari/mobile)
     if (!token && req.headers.authorization) {
       if (req.headers.authorization.startsWith("Bearer ")) {
         token = req.headers.authorization.split(" ")[1];
       }
     }
-
     // ❌ If no token found
     if (!token) {
       return res.status(401).json({

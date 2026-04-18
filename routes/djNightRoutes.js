@@ -16,4 +16,4 @@ router.patch('/checkin/:id', protect, authorizeRoles("admin","user","scanner") ,
 router.patch('/checkout/:id', protect, authorizeRoles("admin","user","scanner") , checkOutStarNight);
 router.get("/search",protect,authorizeRoles("admin","user","scanner"), searchEventController);
 
-export default router; 
+export default router;

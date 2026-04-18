@@ -12,16 +12,13 @@ export const createStarNightRegistration = async (req, res) => {
         message: "All fields are required",
       });
     }
-
     const existingRegistration = await StarNight.findOne({ email });
-
     if (existingRegistration) {
       return res.status(400).json({
         success: false,
         message: "You have already registered for DJ Night",
       });
-    }
-
+    } 
     const registration = new StarNight({
       name,
       email,
@@ -166,6 +163,7 @@ export const checkInStarNight = async (req, res) => {
     });
   }
 };
+
 export const checkOutStarNight = async (req, res) => {
   try {
     const { id } = req.params;
