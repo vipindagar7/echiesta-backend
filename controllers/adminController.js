@@ -56,6 +56,7 @@ export const getGamingRegistrations = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 }
+
 export const getCounsilingRegistrations = async (req, res) => {
   try {
     const counsilingRegistrations = await StudentCounsiling.find().lean();

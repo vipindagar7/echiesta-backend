@@ -274,7 +274,7 @@ async function sendAccountCreatedMail(student, password) {
         </div>
 
         <p style="color:#facc15">
-          <a href="https://echiesta.vercel.app/admin-login">Login here</a>
+          <a href="https://echiesta-frontend.vercel.app/admin-login">Login here</a>
         </p>
 
         <br/>
