@@ -5,11 +5,12 @@ import { getCounsilingRegistrations, getGamingRegistrations, statGaming, stats }
 
 const router = express.Router();
 
-router.get("/stats",protect,authorizeRoles("admin","user",),stats)
+router.get("/stat", protect, authorizeRoles("admin", "user", "gamer"), statGaming)
 
-router.get("/stat",protect,authorizeRoles("admin","user","gamer"),statGaming)
+router.get("/stats", protect, authorizeRoles("admin", "user",), stats)
 
-router.get("/getGamingRegistrations",protect,authorizeRoles("admin","user","gamer"),getGamingRegistrations)
-router.get("/getCounsilingRegistrations",protect,authorizeRoles("admin","user","gamer"),getCounsilingRegistrations)
+
+router.get("/getGamingRegistrations", protect, authorizeRoles("admin", "user", "gamer"), getGamingRegistrations)
+router.get("/getCounsilingRegistrations", protect, authorizeRoles("admin", "user", "gamer"), getCounsilingRegistrations)
 
 export default router;

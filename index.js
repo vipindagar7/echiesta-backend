@@ -5,6 +5,7 @@ import starNightRegistration from "./routes/djNightRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
+import counslingRoutes from "./routes/counslingRoutes.js";
 import mongoose from "mongoose";
 import cors from "cors";
 import cookieParser from "cookie-parser";
@@ -67,6 +68,8 @@ app.use("/api/star-night", starNightRegistration);
 app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/user", userRoutes);
+app.use("/api/counsling", counslingRoutes);
+
 
 
 app.get("/", (req, res) => {

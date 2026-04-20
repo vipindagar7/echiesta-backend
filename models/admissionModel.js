@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 
+// ─── Academic Details ─────────────────────────────
 const AcademicDetailSchema = new mongoose.Schema({
   examination: String,
   schoolOrCollegeName: String,
@@ -10,49 +11,119 @@ const AcademicDetailSchema = new mongoose.Schema({
   subjects: String,
 });
 
-const AdmissionSchema = new mongoose.Schema({
-  // Personal Details
-  fullName: { type: String, required: true, trim: true },
-  program: { type: String, trim: true },
-  branch: { type: String, trim: true },
-  fatherName: { type: String, trim: true },
-  motherName: { type: String, trim: true },
-  dateOfBirth: { type: Date },
-  age: { type: Number },
-  studentContactNo: { type: String, trim: true },
-  fatherContactNo: { type: String, trim: true },
-  alternateContact: { type: String, trim: true },
-  emailId: { type: String, trim: true, lowercase: true },
-  aadhaarNumber: { type: String, trim: true },
-  permanentAddress: { type: String, trim: true },
-  gender: { type: String, enum: ['Male', 'Female', 'Other'] },
+// ─── Counselling Notes ────────────────────────────
+const CounsellingNoteSchema = new mongoose.Schema({
+  counsellor: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  },
+  counsellorName: String,
+  note: String,
+  outcome: {
+    type: String,
+    enum: ['Interested', 'Admitted', 'Follow Up', 'Not Interested', 'Pending'],
+    default: 'Pending',
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
 
-  // Entrance Exam
-  entranceExamsGiven: [{ type: String }], // CET, CUET, NIMCET, JEE MAINS, GATE, CMAT-2026, CAT-2025
-  entranceScore: { type: String },
-  rankDetails: { type: String },
+// ─── Main Admission Schema ────────────────────────
+const AdmissionSchema = new mongoose.Schema({
+
+  // Personal
+  fullName: { type: String, required: true, trim: true },
+  program: String,
+  branch: String,
+  fatherName: String,
+  motherName: String,
+  dateOfBirth: Date,
+  age: Number,
+
+  studentContactNo: String,
+  fatherContactNo: String,
+  alternateContact: String,
+
+  emailId: String,
+  aadhaarNumber: String,
+  permanentAddress: String,
+
+  gender: {
+    type: String,
+    enum: ['Male', 'Female', 'Other'],
+  },
+
+  // Entrance
+  entranceExamsGiven: [String],
+  entranceScore: String,
+  rankDetails: String,
 
   // Category
-  category: { type: String, enum: ['General', 'SC', 'ST', 'OBC', 'EWS', 'Jain'] },
-  nationality: { type: String, trim: true },
+  category: {
+    type: String,
+    enum: ['General', 'SC', 'ST', 'OBC', 'EWS', 'Jain'],
+  },
+  nationality: String,
 
-  // Academic Details
+  // Academic
   academicDetails: [AcademicDetailSchema],
 
-  // Courses Interested In
-  coursesInterested: [{ type: String }],
+  // Courses
+  coursesInterested: [String],
 
-  // Source of Information
-  sourceOfInformation: [{ type: String }], // Website, Newspaper, Seminar, Friends, Social Media, Others
-  sourceOther: { type: String },
+  // Source
+  sourceOfInformation: [String],
+  sourceOther: String,
 
-  // College Selection Factors
-  collegeChoiceFactors: [{ type: String }],
+  // Factors
+  collegeChoiceFactors: [String],
+
+  // ─── COUNSELLING SYSTEM ───
+
+  assignedCounsellor: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  },
+
+  checkedInBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  },
+
+  checkedInAt: Date,
+
+  status: {
+    type: String,
+    enum: [
+      'Waiting',
+      'In Counselling',
+      'Counselled',
+      'Admitted',
+      'Not Interested'
+    ],
+    default: 'Waiting'
+  },
+
+  counsellingNotes: [CounsellingNoteSchema],
 
   // Meta
-  submittedAt: { type: Date, default: Date.now },
-  academicSession: { type: String, default: '2026-27' },
-});
+  submittedAt: {
+    type: Date,
+    default: Date.now,
+  },
+  academicSession: {
+    type: String,
+    default: '2026-27',
+  },
+
+}, { timestamps: true });
+
+// Indexes
+AdmissionSchema.index({ status: 1 });
+AdmissionSchema.index({ assignedCounsellor: 1 });
+AdmissionSchema.index({ fullName: 'text', emailId: 'text' });
 
 const Admission = mongoose.model('Admission', AdmissionSchema);
 export default Admission;
