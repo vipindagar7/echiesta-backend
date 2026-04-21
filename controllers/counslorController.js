@@ -19,17 +19,8 @@ export const submitForm = async (req, res) => {
 // ─── Get All Admissions ─────────────────────
 export const getAllAdmissions = async (req, res) => {
     try {
-        let query = {};
 
-        // ✅ If counsellor → only assigned students
-        if (req.user.role === "counslor") {
-            query.assignedCounsellor = req.user.id;
-        }
-
-        // ✅ If receptionist/admin → see all
-        // (no filter)
-
-        const admissions = await Admission.find(query)
+        const admissions = await Admission.find()
             .populate("assignedCounsellor", "name")
             .sort({ submittedAt: -1 });
 
